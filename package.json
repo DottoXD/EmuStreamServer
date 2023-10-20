@@ -1,0 +1,36 @@
+{
+  "name": "emustreamserver",
+  "version": "0.0.1",
+  "description": "WebRTC-based server tht allows you to stream games from a PC to another.",
+  "main": "dist/index.js",
+  "scripts": {
+    "prettier": "prettier --write .",
+    "build": "tsc && node copier",
+    "start:prod": "npm run prettier && npm run build && node dist/index",
+    "start": "node dist/index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DottoXD/EmuStreamServer.git"
+  },
+  "author": "DottoXD",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/DottoXD/EmuStreamServer/issues"
+  },
+  "homepage": "https://github.com/DottoXD/EmuStreamServer#readme",
+  "devDependencies": {
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@fastify/helmet": "^11.1.1",
+    "@fastify/static": "^6.11.2",
+    "@fastify/view": "^8.2.0",
+    "@types/ejs": "^3.1.4",
+    "ejs": "^3.1.9",
+    "fastify": "^4.24.3",
+    "figlet": "^1.6.0",
+    "socket.io": "^4.7.2"
+  }
+}
