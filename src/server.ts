@@ -2,12 +2,12 @@
     @ EmuStreamServer @
     
     - Coded by DottoXD -
-    Last file edit: 20/10/2023.
+    Last file edit: 22/10/2023.
     This project is GPL-3.0 licensed.
 */
 
 import Fastify, { FastifyInstance } from "fastify";
-import Io, { Server as IoServer } from "socket.io";
+import Ws, { Server as WsServer } from "ws";
 import Http, { Server } from "http";
 import Path from "path";
 import Fs from "fs";
@@ -15,7 +15,7 @@ import Fs from "fs";
 export default class EmuStreamServer {
   public FastifyServer: FastifyInstance;
   public HttpServer: Server;
-  public SocketServer: IoServer;
+  public SocketServer: WsServer;
 
   constructor() {
     this.FastifyServer = Fastify({
@@ -24,17 +24,13 @@ export default class EmuStreamServer {
     });
 
     this.HttpServer = Http.createServer();
-    this.SocketServer = new Io.Server(this.HttpServer, {
-      cors: {
-        origin: "*",
-        methods: ["GET", "POST"],
-      },
-    });
+    this.SocketServer = new Ws.Server({ server: this.HttpServer });
 
     this.init();
     this.handler();
     this.loadPlugins();
     this.loadRoutes();
+    this.ffmpegTest();
   }
 
   private async init(): Promise<void> {
@@ -71,5 +67,14 @@ export default class EmuStreamServer {
 
       this.FastifyServer.register(Route);
     });
+  }
+
+  private async ffmpegTest(): Promise<void> {
+    require("child_process").spawn(
+      "ffmpeg",
+      "-framerate 60 -video_size 1280x800 -f x11grab -i :0.0 -preset ultrafast -tune zerolatency -qscale 0 -vf format=yuv420p -b:v 10M -omit_video_pes_length 1 -f mpegts -g 2 udp://127.0.0.1:1234".split(
+        " ",
+      ),
+    );
   }
 }

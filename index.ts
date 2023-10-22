@@ -9,4 +9,3 @@
 import Server from "./src/server";
 
 export const ServerObj = new Server();
-s
