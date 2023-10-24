@@ -30,7 +30,7 @@ export default class EmuStreamServer {
     this.handler();
     this.loadPlugins();
     this.loadRoutes();
-    this.ffmpegTest();
+    //this.ffmpegTest();
   }
 
   private async init(): Promise<void> {
@@ -72,7 +72,7 @@ export default class EmuStreamServer {
   private async ffmpegTest(): Promise<void> {
     require("child_process").spawn(
       "ffmpeg",
-      "-framerate 60 -video_size 1280x800 -f x11grab -i :0.0 -preset ultrafast -tune zerolatency -qscale 0 -vf format=yuv420p -b:v 10M -omit_video_pes_length 1 -f mpegts -g 2 udp://127.0.0.1:1234".split(
+      "-framerate 60 -video_size 1280x800 -f x11grab -i :17 -preset ultrafast -tune zerolatency -qscale 0 -vf format=yuv420p -b:v 20M -omit_video_pes_length 1 -f mpegts -g 2 udp://0.0.0.0:4040".split(
         " ",
       ),
     );

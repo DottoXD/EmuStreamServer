@@ -2,6 +2,11 @@
   --color-background: #white;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background: var(--color-background);
 }

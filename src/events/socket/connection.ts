@@ -6,6 +6,7 @@
     This project is GPL-3.0 licensed.
 */
 
+import { streamWidth, streamHeight } from "../../functions/startStream";
 import { WebSocket } from "ws";
 import { spawn } from "child_process";
 
@@ -19,10 +20,12 @@ export class SocketEvent {
   public async run(): Promise<void> {
     const Ffmpeg = spawn(
       "ffmpeg",
-      "-i udp://127.0.0.1:1234 -f mpegts -preset ultrafast -tune fastdecode -flags low_delay -analyzeduration 1 -strict experimental -fflags nobuffer -probesize 32 -codec:v mpeg1video -s 1280x800 -b:v 70M -".split(
+      `-i udp://127.0.0.1:4040 -f mpegts -preset ultrafast -tune fastdecode -flags low_delay -analyzeduration 1 -strict experimental -fflags nobuffer -probesize 32 -codec:v mpeg1video -s ${streamWidth}x${streamHeight} -b:v 10M -`.split(
         " ",
       ),
     );
+
+    //<canvas id="canvas"></canvas>
 
     Ffmpeg.stdout.on("data", (Data) => {
       this.SocketObject.send(Data);
